@@ -6,6 +6,8 @@ const userRoute = require('./routes/userRoute');
 const productRoute = require('./routes/productRoute');
 const cartRoute = require('./routes/cartRoute');
 const orderRoute = require('./routes/orderRoute');
+const { globalErrorHandler } = require('./utils/errorUtils');
+
 require('./config/db.js')();
 
 const app = express();
@@ -23,4 +25,5 @@ app.use('*', (req, res) => {
   res.send("I'm at the server");
 });
 
+app.use(globalErrorHandler);
 module.exports = app;
