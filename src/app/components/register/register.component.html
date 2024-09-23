@@ -1,0 +1,34 @@
+<section>
+  <div class="row">
+    <div class="col-10 col-md-8 col-lg-6 mx-auto">
+      <form
+        [formGroup]="registerForm"
+        (ngSubmit)="register()"
+        class="border rounded-2 border-black border-opacity-25 p-3"
+      >
+        <h3 class="text-center">Register</h3>
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="name" />
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" />
+        </div>
+        <div class="mb-3">
+          <label for="phone" class="form-label">Phone</label>
+          <input type="tel" class="form-control" id="phoe" />
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" />
+        </div>
+        <div class="mb-3">
+          <label for="rePassword" class="form-label">Confirm Password</label>
+          <input type="password" class="form-control" id="rePassword" />
+        </div>
+        <button class="btn btn-primary ms-auto d-block">Register</button>
+      </form>
+    </div>
+  </div>
+</section>
