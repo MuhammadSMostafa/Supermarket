@@ -1,20 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const { sanitizeRequest } = require('./../utils/authUtils');
+const {
+  checkRequest,
+  authenticateUser,
+  authorizeUser,
+} = require('./../utils/authUtils');
 const {
   registerUser,
   loginUser,
   logoutUser,
   changePassword,
 } = require('./../controllers/authController');
-const { authenticateUser } = require('./../utils/authUtils');
 
-router.post('/register', sanitizeRequest('register'), registerUser);
-router.post('/login', sanitizeRequest('login'), loginUser);
+router.post('/register', checkRequest('register'), registerUser);
+router.post('/login', checkRequest('login'), loginUser);
 router.get('/logout', authenticateUser, logoutUser);
 router.post(
   '/change-password',
-  sanitizeRequest('changePassword'),
+  checkRequest('changePassword'),
   authenticateUser,
   changePassword
 );

@@ -16,14 +16,10 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/auth', authRoute);
-app.use('/api/user', userRoute);
-app.use('/api/product', productRoute);
-app.use('/api/cart', cartRoute);
-app.use('/api/order', orderRoute);
-
-app.use('*', (req, res) => {
-  res.send("I'm at the server");
-});
+app.use('/api/users', userRoute);
+app.use('/api/products', productRoute);
+app.use('/api/carts', cartRoute);
+app.use('/api/orders', orderRoute);
 
 app.use(globalErrorHandler);
 module.exports = app;

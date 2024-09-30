@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const { getUser, updateUser } = require('./../controllers/userController');
+const { authenticateUser, checkRequest } = require('./../utils/authUtils');
 
-router.post('/', (req, res, next) => {
-  res.send("it's the auth route");
-});
+router.get('/:id', authenticateUser, getUser);
+router.patch('/:id', authenticateUser, checkRequest('user'), updateUser);
 
 module.exports = router;

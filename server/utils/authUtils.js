@@ -6,18 +6,22 @@ const routes = {
   register: ['name', 'email', 'password', 'address', 'phone'],
   login: ['email', 'password'],
   changePassword: ['oldPassword', 'newPassword'],
+  product: ['name', 'description', 'price', 'stock', 'categoryName'],
+  user: ['name', 'email', 'address', 'phone'],
 };
 
-const sanitizeRequest = (route) => (req, res, next) => {
-  const obj = {};
-  let missed = [];
-  routes[route].forEach((element) => {
-    if (req.body[element]) obj[element] = req.body[element];
-    else missed.push(element);
+const checkRequest = (route) => (req, res, next) => {
+  Object.keys(req.body).forEach((element) => {
+    if (!routes[route].includes(element)) {
+      delete req.body[element];
+    }
   });
+  const missed = routes[route].filter((element) => {
+    return req.body[element] ? false : true;
+  });
+  console.log(req.body);
   if (missed.length > 0)
     return next(new AppError(`The ${missed.join(',')} is missing`));
-  req.obj = obj;
   next();
 };
 
@@ -29,7 +33,7 @@ const authenticateUser = async (req, res, next) => {
   const token = auth.split(' ')[1];
   try {
     const decoded = verifyToken(token);
-    const user = await User.findById(decoded.id).select('+password');
+    const user = await User.findById(decoded.id).select('+password +role');
     if (!user)
       return next(new AppError('There is no use with this token', 402));
     req.user = user;
@@ -39,4 +43,10 @@ const authenticateUser = async (req, res, next) => {
   }
 };
 
-module.exports = { sanitizeRequest, authenticateUser };
+const authorizeUser = (role) => (req, res, next) => {
+  if (req.user.role !== role)
+    return next(new AppError('The user is not authorized', 404));
+  next();
+};
+
+module.exports = { authenticateUser, checkRequest, authorizeUser };
